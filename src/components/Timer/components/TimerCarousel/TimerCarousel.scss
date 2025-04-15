@@ -1,0 +1,62 @@
+.timer-carousel {
+  position: relative;
+  width: 100%;
+
+  &__slider {
+    margin-block: -50px;
+    padding-block: 50px;
+  }
+
+  &__slide {
+    width: auto;
+  }
+
+  &::after, &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    width: 10%;
+    height: 100%;
+    transform: translateY(-50%);
+    user-select: none;
+
+    @include mobile-above {
+      width: 5%;
+    }
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-red), transparent);
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-red), transparent);
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 0.25rem 0.45rem;
+    min-width: 45px;
+    font-family: var(--font-family-alt);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--color-white);
+    background-color: transparent;
+    opacity: 0.6;
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+    user-select: none;
+
+    &.is-active {
+      color: var(--color-red);
+      background-color: var(--color-white);
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+:root {
+  /* Container */
+  --container-width: #{$container-desktop-width + px};
+  --container-padding-x: 16px;
+
+  /* Borders */
+  --border-radius: 5px;
+
+  /* Fonts */
+  --font-family-base: 'Montserrat', sans-serif;
+  --font-family-alt: 'IBMPlexSans', sans-serif;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray: #a6a6a6;
+  --color-red: #e74d3d;
+  --color-red-dark: #bd3a2b;
+
+  /* Duration */
+  --transition-duration: 0.2s;
+}

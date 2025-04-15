@@ -1,0 +1,22 @@
+.timer-button {
+  @include square(128px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  padding: 0;
+  color: var(--color-white);
+  background-color: var(--color-red-dark);
+  transition: color var(--transition-duration);
+  user-select: none;
+
+  @include hover {
+    color: var(--color-gray);
+  }
+
+  &--play {
+    padding-left: 0.3em;
+  }
+}

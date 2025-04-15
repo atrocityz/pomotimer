@@ -1,0 +1,11 @@
+.logo {
+  text-decoration: none;
+  color: var(--color-white);
+
+  &__title {
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+}
