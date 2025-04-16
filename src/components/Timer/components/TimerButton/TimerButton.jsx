@@ -1,29 +1,31 @@
 import { Pause, Play } from 'lucide-react'
-import { useTimer } from '@/hooks/useTimer.js'
-import { useTimerActions } from '@/hooks/useTimerActions.js'
 import classNames from 'classnames'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
 import './TimerButton.scss'
+import { useTimerActions } from '@/hooks/useTimerActions.js'
 
-export const TimerButton = memo(() => {
-  const { timerEnabled } = useTimer()
+export const TimerButton = memo((props) => {
+  const { isTimerEnabled } = props
+
   const { toggleTimer } = useTimerActions()
 
-  const isEnabled = timerEnabled === true
-  const title = isEnabled ? 'Pause timer' : 'Start timer'
+  const title = useMemo(
+    () => (isTimerEnabled ? 'Pause timer' : 'Start timer'),
+    [isTimerEnabled],
+  )
 
   return (
     <button
       className={classNames('timer-button', {
-        'timer-button--play': !isEnabled,
+        'timer-button--play': !isTimerEnabled,
       })}
       type="button"
-      onClick={() => toggleTimer(!isEnabled)}
+      onClick={toggleTimer}
       title={title}
       aria-label={title}
     >
-      {timerEnabled ? <Pause size={56} /> : <Play size={56} />}
+      {isTimerEnabled ? <Pause size={56} /> : <Play size={56} />}
     </button>
   )
 })

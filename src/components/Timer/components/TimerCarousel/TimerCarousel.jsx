@@ -2,16 +2,15 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { A11y } from 'swiper/modules'
 import 'swiper/css'
 import classNames from 'classnames'
-import { useMemo } from 'react'
-import { useTimer } from '@/hooks/useTimer.js'
+import { memo, useMemo } from 'react'
 import { useTimerActions } from '@/hooks/useTimerActions.js'
 
 import './TimerCarousel.scss'
 
-const timerItems = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+const timerItems = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
 
-export const TimerCarousel = () => {
-  const { selectedTime } = useTimer()
+export const TimerCarousel = memo((props) => {
+  const { selectedTime } = props
   const { changeTimerValue } = useTimerActions()
 
   const swiperParams = useMemo(
@@ -35,8 +34,8 @@ export const TimerCarousel = () => {
   return (
     <div className="timer-carousel">
       <Swiper className="timer-carousel__slider" {...swiperParams}>
-        {timerItems.map((time, index) => (
-          <SwiperSlide className="timer-carousel__slide" key={index}>
+        {timerItems.map((time) => (
+          <SwiperSlide className="timer-carousel__slide" key={time}>
             <button
               className={classNames('timer-carousel__button', {
                 'is-active': selectedTime === time,
@@ -52,4 +51,4 @@ export const TimerCarousel = () => {
       </Swiper>
     </div>
   )
-}
+})

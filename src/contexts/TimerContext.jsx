@@ -6,31 +6,36 @@ export const TimerActionsContext = createContext()
 export const TimerProvider = (props) => {
   const { children } = props
 
-  const [timerEnabled, setTimerEnabled] = useState(false)
+  const [isTimerEnabled, setTimerEnabled] = useState(false)
   const [selectedTime, setSelectedTime] = useState(25)
 
   const changeTimerValue = useCallback((time) => {
     setSelectedTime(time)
   }, [])
 
-  const toggleTimer = useCallback((status) => {
-    setTimerEnabled(status)
+  const toggleTimer = useCallback(() => {
+    setTimerEnabled((status) => !status)
+  }, [])
+
+  const pauseTimer = useCallback(() => {
+    setTimerEnabled(false)
   }, [])
 
   const value = useMemo(
     () => ({
       selectedTime,
-      timerEnabled,
+      isTimerEnabled,
     }),
-    [selectedTime, timerEnabled],
+    [selectedTime, isTimerEnabled],
   )
 
   const actions = useMemo(
     () => ({
       changeTimerValue,
+      pauseTimer,
       toggleTimer,
     }),
-    [changeTimerValue, toggleTimer],
+    [],
   )
 
   return (
