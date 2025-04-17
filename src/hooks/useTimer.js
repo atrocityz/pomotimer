@@ -28,7 +28,7 @@ export const useTimer = () => {
     alert('Goal is compelete')
     updateTimerDetailsValue()
     setCurrentMinutes(initialTime)
-  }, [])
+  }, [initialTime])
 
   const updateTimerDetailsValue = useCallback(() => {
     setGoals((prevGoals) => {
