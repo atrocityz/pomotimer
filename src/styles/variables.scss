@@ -6,6 +6,9 @@
   /* Borders */
   --border-radius: 5px;
 
+  /* Sizes */
+  --headerHeight: #{fluid(80,60)};
+
   /* Fonts */
   --font-family-base: 'Montserrat', sans-serif;
   --font-family-alt: 'IBMPlexSans', sans-serif;

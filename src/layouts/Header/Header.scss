@@ -3,5 +3,6 @@
   column-gap: 0.25rem;
   align-items: center;
   justify-content: space-between;
-  padding-block: fluid(40, 30);
+  height: var(--headerHeight);
+  padding-block: 1rem;
 }

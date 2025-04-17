@@ -1,10 +1,8 @@
 import { memo } from 'react'
 
-import './TimerDetails.scss'
+import './Details.scss'
 
-export const TimerDetails = memo((props) => {
-  const { roundsValue, goalsValue } = props
-
+export const Details = memo(({ goalsValue, roundsValue }) => {
   return (
     <div className="timer-details">
       <div className="timer-details__count">

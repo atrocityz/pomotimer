@@ -1,10 +1,8 @@
 import { memo } from 'react'
 
-import './TimerCard.scss'
+import './TimeCard.scss'
 
-export const TimerCard = memo((props) => {
-  const { value } = props
-
+export const TimeCard = memo(({ value }) => {
   const formattedValue = value.toString().padStart(2, '0')
 
   return (

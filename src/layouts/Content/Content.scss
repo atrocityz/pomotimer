@@ -1,7 +1,10 @@
 .content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: fluid(80, 60);
+  padding-top: 50px;
   padding-bottom: 16px;
+  min-height: calc(100dvh - var(--headerHeight));
+  row-gap: 50px;
 }
