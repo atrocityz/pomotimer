@@ -4,17 +4,24 @@ import { getRequestNotificationPermission } from '@/utils/getRequestNotification
 const audioAlert = new Audio('./audio/notification.mp3')
 
 export const useTimer = () => {
-  const [isRunning, setIsRunning] = useState(false)
-  const [initialTime, setInitialTime] = useState(25)
-  const [timeLeft, setTimeLeft] = useState(initialTime * 60)
-  const [goals, setGoals] = useState(0)
-  const [rounds, setRounds] = useState(0)
-  const [audioPermissionGranted, setAudioPermissionGranted] = useState(false)
+  const [timerState, setTimerState] = useState({
+    isRunning: false,
+    initialTime: 25,
+    timeLeft: 25 * 60,
+    goals: 0,
+    rounds: 0,
+  })
+  const [isAudioPermissionGranted, setIsAudioPermissionGranted] =
+    useState(false)
   const intervalRef = useRef(null)
   const endTimeRef = useRef(null)
 
   const toggleStartPause = useCallback(
-    () => setIsRunning((status) => !status),
+    () =>
+      setTimerState((prev) => ({
+        ...prev,
+        isRunning: !prev.isRunning,
+      })),
     [],
   )
 
@@ -23,48 +30,58 @@ export const useTimer = () => {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-    setTimeLeft(initialTime * 60)
-    setIsRunning(false)
-  }, [initialTime])
+    setTimerState((prev) => ({
+      ...prev,
+      timeLeft: prev.initialTime * 60,
+      isRunning: false,
+    }))
+  }, [timerState.initialTime])
 
   const changeInitialTime = useCallback((time) => {
-    setInitialTime(time)
+    setTimerState((prev) => ({
+      ...prev,
+      initialTime: time,
+    }))
   }, [])
 
   const completeGoal = useCallback(() => {
     resetTimer()
-    audioPermissionGranted
+    isAudioPermissionGranted
       && audioAlert.play().catch((error) => new Error(error))
     updateTimerDetailsValue()
     alert('Goal is compelete')
-  }, [initialTime])
+  }, [timerState.initialTime])
 
   const updateTimerDetailsValue = useCallback(() => {
-    setGoals((prevGoals) => {
-      const isLastGoal = prevGoals === 10
-
-      if (isLastGoal) {
-        setRounds((prevRounds) => (prevRounds === 3 ? 0 : prevRounds + 1))
-      }
-
-      return prevGoals + 1
-    })
+    setTimerState((prev) => ({
+      ...prev,
+      rounds: (() => {
+        if (prev.goals === 11) {
+          if (prev.rounds === 3) {
+            return 0
+          }
+          return prev.rounds + 1
+        }
+        return prev.rounds
+      })(),
+      goals: prev.goals === 11 ? 0 : prev.goals + 1,
+    }))
   }, [])
 
   useEffect(() => {
-    getRequestNotificationPermission(setAudioPermissionGranted).catch(
-      (error) => new Error(error),
-    )
+    getRequestNotificationPermission()
+      .then((result) => setIsAudioPermissionGranted(result))
+      .catch(() => setIsAudioPermissionGranted(false))
   }, [])
 
   useEffect(() => {
     resetTimer()
-  }, [initialTime])
+  }, [timerState.initialTime])
 
   useEffect(() => {
-    if (!isRunning) return
+    if (!timerState.isRunning) return
 
-    endTimeRef.current = Date.now() + timeLeft * 1000
+    endTimeRef.current = Date.now() + timerState.timeLeft * 1000
 
     intervalRef.current = setInterval(() => {
       const remainingTime = Math.round((endTimeRef.current - Date.now()) / 1000)
@@ -74,7 +91,10 @@ export const useTimer = () => {
         return
       }
 
-      setTimeLeft(remainingTime)
+      setTimerState((prev) => ({
+        ...prev,
+        timeLeft: remainingTime,
+      }))
     }, 1000)
 
     return () => {
@@ -83,15 +103,15 @@ export const useTimer = () => {
         intervalRef.current = null
       }
     }
-  }, [isRunning, timeLeft])
+  }, [timerState.initialTime, timerState.timeLeft, timerState.isRunning])
 
   return {
-    initialTime,
-    isRunning,
+    initialTime: timerState.initialTime,
+    isRunning: timerState.isRunning,
     toggleStartPause,
     changeInitialTime,
-    timeLeft,
-    goals,
-    rounds,
+    timeLeft: timerState.timeLeft,
+    goals: timerState.goals,
+    rounds: timerState.rounds,
   }
 }

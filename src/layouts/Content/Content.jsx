@@ -1,9 +1,6 @@
 import './Content.scss'
-import { TimerDisplay } from '@/components/TimerDisplay/TimerDisplay.jsx'
-import { Carousel } from '@/components/Carousel/Carousel.jsx'
-import { Button } from '@/components/Button/Button.jsx'
-import { Details } from '@/components/Details/Details.jsx'
 import { useTimer } from '@/hooks/useTimer.js'
+import { TimerDisplay, Carousel, Button, Details } from '@/components/'
 
 export const Content = () => {
   const {

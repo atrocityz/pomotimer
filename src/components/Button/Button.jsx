@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { memo, useMemo } from 'react'
 
 import './Button.scss'
-import { ProgressBar } from '@/components/ProgressBar/ProgressBar.jsx'
+import { ProgressBar } from '@/components/'
 
 export const Button = memo(
   ({ isTimerRunning, onClick, timerValue, initialTime }) => {
