@@ -11,8 +11,7 @@ export const Content = () => {
     initialTime,
     isRunning,
     toggleStartPause,
-    currentMinutes,
-    currentSeconds,
+    timeLeft,
     goals,
     rounds,
   } = useTimer()
@@ -20,11 +19,16 @@ export const Content = () => {
   return (
     <main className="content container">
       <TimerDisplay
-        minutesValue={currentMinutes}
-        secondsValue={currentSeconds}
+        minutesValue={Math.floor(timeLeft / 60)}
+        secondsValue={timeLeft % 60}
       />
       <Carousel timerValue={initialTime} onClick={changeInitialTime} />
-      <Button isTimerRunning={isRunning} onClick={toggleStartPause} />
+      <Button
+        isTimerRunning={isRunning}
+        onClick={toggleStartPause}
+        timerValue={timeLeft}
+        initialTime={initialTime}
+      />
       <Details roundsValue={rounds} goalsValue={goals} />
     </main>
   )

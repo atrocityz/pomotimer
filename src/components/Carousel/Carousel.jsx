@@ -6,7 +6,7 @@ import { memo } from 'react'
 
 import './Carousel.scss'
 
-const timerItems = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+const timerItems = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
 
 const swiperParams = {
   modules: [A11y],

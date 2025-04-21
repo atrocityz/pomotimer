@@ -69,7 +69,7 @@ export const useTimer = () => {
     intervalRef.current = setInterval(() => {
       const remainingTime = Math.round((endTimeRef.current - Date.now()) / 1000)
 
-      if (remainingTime <= 0) {
+      if (remainingTime < 0) {
         completeGoal()
         return
       }
@@ -90,8 +90,7 @@ export const useTimer = () => {
     isRunning,
     toggleStartPause,
     changeInitialTime,
-    currentMinutes: Math.floor(timeLeft / 60),
-    currentSeconds: timeLeft % 60,
+    timeLeft,
     goals,
     rounds,
   }
