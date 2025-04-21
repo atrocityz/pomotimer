@@ -9,7 +9,7 @@
   "arrowParens": "always",
   "jsxSingleQuote": false,
   "bracketSameLine": false,
-  "endOfLine": "lf",
+  "endOfLine": "crlf",
   "experimentalOperatorPosition": "start",
   "overrides": [
     {
