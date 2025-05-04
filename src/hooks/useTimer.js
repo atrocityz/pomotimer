@@ -30,16 +30,16 @@ export const useTimer = () => {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-    setTimerState((prev) => ({
-      ...prev,
-      timeLeft: prev.initialTime * 60,
+    setTimerState((prevState) => ({
+      ...prevState,
+      timeLeft: prevState.initialTime * 60,
       isRunning: false,
     }))
   }, [timerState.initialTime])
 
   const changeInitialTime = useCallback((time) => {
-    setTimerState((prev) => ({
-      ...prev,
+    setTimerState((prevState) => ({
+      ...prevState,
       initialTime: time,
     }))
   }, [])
@@ -53,18 +53,18 @@ export const useTimer = () => {
   }, [timerState.initialTime])
 
   const updateTimerDetailsValue = useCallback(() => {
-    setTimerState((prev) => ({
-      ...prev,
+    setTimerState((prevState) => ({
+      ...prevState,
       rounds: (() => {
-        if (prev.goals === 11) {
-          if (prev.rounds === 3) {
+        if (prevState.goals === 11) {
+          if (prevState.rounds === 3) {
             return 0
           }
-          return prev.rounds + 1
+          return prevState.rounds + 1
         }
-        return prev.rounds
+        return prevState.rounds
       })(),
-      goals: prev.goals === 11 ? 0 : prev.goals + 1,
+      goals: prevState.goals === 11 ? 0 : prevState.goals + 1,
     }))
   }, [])
 
@@ -91,8 +91,8 @@ export const useTimer = () => {
         return
       }
 
-      setTimerState((prev) => ({
-        ...prev,
+      setTimerState((prevState) => ({
+        ...prevState,
         timeLeft: remainingTime,
       }))
     }, 1000)
