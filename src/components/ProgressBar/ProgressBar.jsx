@@ -1,19 +1,20 @@
 import './ProgressBar.scss'
 import { useCallback, useMemo, useRef } from 'react'
+import { getCircleLength } from '@/utils/getCircleLength.js'
 
 export const ProgressBar = ({ timerValue, initialTime }) => {
   const circleRef = useRef(null)
 
-  const getCircleLength = useCallback(() => {
+  const circleLength = useMemo(() => {
     if (!circleRef.current) return 0
 
-    return Math.round(2 * Math.PI * circleRef.current.r.baseVal.value)
-  }, [])
+    return getCircleLength(circleRef.current)
+  }, [circleRef.current])
 
-  const getProgressBarLength = useCallback(() => {
+  const countProgressBarLength = useCallback(() => {
     if (!circleRef.current) return 0
 
-    return Math.round(getCircleLength() * (timerValue / initialTime))
+    return Math.round(circleLength * (timerValue / initialTime))
   }, [timerValue, initialTime])
 
   const isTimerWasLaunched = useMemo(() => {
@@ -31,8 +32,8 @@ export const ProgressBar = ({ timerValue, initialTime }) => {
           className="progress-bar__value"
           style={{
             stroke: isTimerWasLaunched ? 'var(--color-white)' : 'transparent',
-            strokeDasharray: getCircleLength(),
-            strokeDashoffset: getProgressBarLength(),
+            strokeDasharray: circleLength,
+            strokeDashoffset: countProgressBarLength(),
           }}
         />
       </svg>
