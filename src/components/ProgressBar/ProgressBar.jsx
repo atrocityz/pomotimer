@@ -12,10 +12,8 @@ export const ProgressBar = ({ timerValue, initialTime }) => {
   }, [circleRef.current])
 
   const countProgressBarLength = useCallback(() => {
-    if (!circleRef.current) return 0
-
     return Math.round(circleLength * (timerValue / initialTime))
-  }, [timerValue, initialTime])
+  }, [timerValue, initialTime, circleLength])
 
   const isTimerWasLaunched = useMemo(() => {
     return timerValue !== initialTime
