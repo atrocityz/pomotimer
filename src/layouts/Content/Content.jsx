@@ -4,10 +4,10 @@ import { TimerDisplay, Carousel, Button, Details } from '@/components/'
 
 export const Content = () => {
   const {
-    changeInitialTime,
+    changeTime,
     initialTime,
     isRunning,
-    toggleStartPause,
+    toggleTimer,
     timeLeft,
     goals,
     rounds,
@@ -19,10 +19,10 @@ export const Content = () => {
         minutesValue={Math.floor(timeLeft / 60)}
         secondsValue={timeLeft % 60}
       />
-      <Carousel timerValue={initialTime} onClick={changeInitialTime} />
+      <Carousel timerValue={initialTime} onClick={changeTime} />
       <Button
         isTimerRunning={isRunning}
-        onClick={toggleStartPause}
+        onClick={toggleTimer}
         timerValue={timeLeft}
         initialTime={initialTime}
       />

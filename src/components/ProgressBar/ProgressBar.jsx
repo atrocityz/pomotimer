@@ -11,13 +11,9 @@ export const ProgressBar = ({ timerValue, initialTime }) => {
     return getCircleLength(circleRef.current)
   }, [circleRef.current])
 
-  const countProgressBarLength = useCallback(() => {
+  const countProgressValue = useCallback(() => {
     return Math.round(circleLength * (timerValue / initialTime))
   }, [timerValue, initialTime, circleLength])
-
-  const isTimerWasLaunched = useMemo(() => {
-    return timerValue !== initialTime
-  }, [timerValue])
 
   return (
     <span className="progress-bar">
@@ -29,9 +25,10 @@ export const ProgressBar = ({ timerValue, initialTime }) => {
           r="54"
           className="progress-bar__value"
           style={{
-            stroke: isTimerWasLaunched ? 'var(--color-white)' : 'transparent',
+            stroke:
+              timerValue !== initialTime ? 'var(--color-white)' : 'transparent',
             strokeDasharray: circleLength,
-            strokeDashoffset: countProgressBarLength(),
+            strokeDashoffset: countProgressValue(),
           }}
         />
       </svg>

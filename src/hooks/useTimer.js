@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getRequestNotificationPermission } from '@/utils/getRequestNotificationPermission.js'
 
+//TODO: переделать оповещения (возможно использовать другое API)
 const audioAlert = new Audio('./audio/notification.mp3')
+
+const initialTime = 25
 
 export const useTimer = () => {
   const [timerState, setTimerState] = useState({
     isRunning: false,
-    initialTime: 25,
-    timeLeft: 25 * 60,
+    initialTime,
+    timeLeft: initialTime * 60,
     goals: 0,
     rounds: 0,
   })
@@ -16,7 +19,7 @@ export const useTimer = () => {
   const intervalRef = useRef(null)
   const endTimeRef = useRef(null)
 
-  const toggleStartPause = useCallback(
+  const toggleTimer = useCallback(
     () =>
       setTimerState((prev) => ({
         ...prev,
@@ -26,10 +29,6 @@ export const useTimer = () => {
   )
 
   const resetTimer = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
-    }
     setTimerState((prevState) => ({
       ...prevState,
       timeLeft: prevState.initialTime * 60,
@@ -37,20 +36,22 @@ export const useTimer = () => {
     }))
   }, [timerState.initialTime])
 
-  const changeInitialTime = useCallback((time) => {
+  const changeTime = useCallback((time) => {
     setTimerState((prevState) => ({
       ...prevState,
       initialTime: time,
     }))
+
+    resetTimer()
   }, [])
 
   const completeGoal = useCallback(() => {
-    resetTimer()
     isAudioPermissionGranted
       && audioAlert.play().catch((error) => new Error(error))
     updateTimerDetailsValue()
-    alert('Goal is compelete')
-  }, [timerState.initialTime])
+    alert('Goal is complete')
+    resetTimer()
+  }, [])
 
   const updateTimerDetailsValue = useCallback(() => {
     setTimerState((prevState) => ({
@@ -73,10 +74,6 @@ export const useTimer = () => {
       .then((result) => setIsAudioPermissionGranted(result))
       .catch(() => setIsAudioPermissionGranted(false))
   }, [])
-
-  useEffect(() => {
-    resetTimer()
-  }, [timerState.initialTime])
 
   useEffect(() => {
     if (!timerState.isRunning) return
@@ -108,8 +105,8 @@ export const useTimer = () => {
   return {
     initialTime: timerState.initialTime,
     isRunning: timerState.isRunning,
-    toggleStartPause,
-    changeInitialTime,
+    toggleTimer,
+    changeTime,
     timeLeft: timerState.timeLeft,
     goals: timerState.goals,
     rounds: timerState.rounds,
